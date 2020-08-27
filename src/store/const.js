@@ -1,0 +1,11 @@
+export const NOTE = {
+    CREATE: 'CREATE_NOTE',
+    UPDATE:'UPDATE_NOTE',
+    DELETE: 'DELETE_NOTE'
+}
+
+export const LINK = {
+    CREATE: 'CREATE_LINK',
+    UPDATE:'UPDATE_LINK',
+    DELETE: 'DELETE_LINK'
+}
