@@ -9,3 +9,20 @@ export const LINK = {
     UPDATE:'UPDATE_LINK',
     DELETE: 'DELETE_LINK'
 }
+
+/*
+
+note = {
+        // id: '',
+        title: '',
+        desc: '',
+        children: [],
+        links: []
+}
+
+link = {
+    desc: '',
+    link: ''
+}
+
+*/

@@ -2,19 +2,16 @@ import { NOTE } from '../../const'
 
 function get_note_obj(action){
     return {
-        id: new Date().getTime(),
+        // id: new Date().getTime(),
         title: action.payload.title,
-        description: '',
+        desc: '',
         children: [],
         links: []
     }
 }
 
 function get_link_obj(action){
-    return {
-        desc: '',
-        link: action.payload.link
-    }
+    return action.payload.info
 }
 
 export function create_note(state, action){
@@ -22,9 +19,9 @@ export function create_note(state, action){
     const routeExsist = routeLen > 0
     
     if (routeExsist && routeLen > 1) 
-        return create_deep_smt(state, action)
+        return create_deep(state, action)
     if (routeExsist) 
-        return create_shallow_smt(state, action)
+        return create_shallow(state, action)
 
     return {
         ...state, 
@@ -40,13 +37,13 @@ export function create_link(state, action){
     const routeLen = action.payload.route.length
     
     if (routeLen > 1) 
-        return create_deep_smt(state, action)
+        return create_deep(state, action)
    
-    return create_shallow_smt(state, action)
+    return create_shallow(state, action)
 }
 
 
-function create_deep_smt(state, action){
+function create_deep(state, action){
     const indexes = action.payload.route.split('-').map(index => Number(index))
     const notes = state.notes
 
@@ -71,7 +68,7 @@ function create_deep_smt(state, action){
 }
 
 
-function create_shallow_smt(state, action){
+function create_shallow(state, action){
     const index = Number(action.payload.route)
     const notes = state.notes
 
