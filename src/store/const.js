@@ -1,7 +1,8 @@
 export const NOTE = {
     CREATE: 'CREATE_NOTE',
     UPDATE:'UPDATE_NOTE',
-    DELETE: 'DELETE_NOTE'
+    DELETE: 'DELETE_NOTE',
+    CHANGE: 'CHANGE_NOTE'
 }
 
 export const LINK = {

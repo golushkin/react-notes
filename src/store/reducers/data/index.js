@@ -23,9 +23,19 @@ export function data(state = initialState, action){
         case LINK.DELETE:
         case NOTE.DELETE:
             return delete_smt(state, action)
+
+        case NOTE.CHANGE:
+            return {
+                ...state,
+                currentMenu: action.payload
+            }
         
         default:
             return state
     }
 }
 
+
+function change_current_note(state, action){
+    return 
+}

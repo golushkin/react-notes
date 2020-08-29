@@ -14,6 +14,13 @@ export function update_note(info){
     }
 }
 
+export function change_note(route){
+    return {
+        type: NOTE.UPDATE,
+        payload: route
+    }
+}
+
 export function delete_note(route){
     return {
         type: NOTE.DELETE,
