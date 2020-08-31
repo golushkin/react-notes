@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import { Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import { TreeItem, TreeView } from '@material-ui/lab'
 import { ExpandMore, ChevronRight } from '@material-ui/icons'
+import { routes } from '../routes'
 
 export class Sidebar extends Component {
     render() {
         return (
+            <div className="sidebar">     
             <TreeView
                 defaultCollapseIcon={<ExpandMore />}
                 defaultExpandIcon={<ChevronRight />}
@@ -25,6 +29,8 @@ export class Sidebar extends Component {
                     </TreeItem>
                 </TreeItem>
             </TreeView>
+            <Link to={routes.create}><Button>+ Create Note</Button></Link>
+            </div>
         );
 
     }

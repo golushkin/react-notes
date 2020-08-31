@@ -3,9 +3,35 @@ import { create_note, create_link } from "./create"
 import { update_note, update_link } from "./update"
 import { delete_smt } from "./delete"
 
+// const initialState = {
+//     currentMenu: '',
+//     notes: []
+// }
+
 const initialState = {
-    currentMenu: '',
-    notes: []
+    currentMenu: '0',
+    notes: [
+        {
+            title: 'English',
+            desc: 'Useful links for studing english',
+            children: [
+                {
+                    title: 'speaking',
+                    desc: '',
+                    children: [],
+                    links: []
+                }
+            ],
+            links: [
+                {
+                    link: 'https://localhost.com',
+                    desc: 'Local Host',
+                    title: 'Site',
+                    img: 'https://yandex.com/weather/static/og_image.png'
+                }
+            ]
+        }
+    ]
 }
 
 export function data(state = initialState, action){ 
@@ -35,7 +61,3 @@ export function data(state = initialState, action){
     }
 }
 
-
-function change_current_note(state, action){
-    return 
-}

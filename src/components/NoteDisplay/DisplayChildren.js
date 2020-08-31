@@ -5,8 +5,7 @@ import {
     AccordionDetails,
     Typography, List,
     ListItem, ListItemText,
-    IconButton,
-    ListItemSecondaryAction, Link
+    Link
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { styled } from '@material-ui/styles'
@@ -16,16 +15,11 @@ export class DisplayChildren extends Component {
     renderListItems() {
         return this.props.note_children.map((item, i) => (
             <ListItem key={i}>
-                <ListItemText primary={<StyleLink href='#' 
-                                            underline='none' 
-                                            onClick={() => console.log(i)} variant='body1'>
-                                                {i+1}. {item.title}
-                                        </StyleLink>} />
-                <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItemSecondaryAction>
+                <ListItemText primary={<StyleLink href='#'
+                    underline='none'
+                    onClick={() => console.log(i)} variant='body1'>
+                    {i + 1}. {item.title}
+                </StyleLink>} />
             </ListItem>
         ))
     }

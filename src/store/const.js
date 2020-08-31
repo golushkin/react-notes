@@ -23,7 +23,9 @@ note = {
 
 link = {
     desc: '',
-    link: ''
+    link: '',
+    title: '',
+    img: ''
 }
 
 */
