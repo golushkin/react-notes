@@ -1,13 +1,8 @@
 import { NOTE } from '../../const'
 
 function get_note_obj(action){
-    return {
-        // id: new Date().getTime(),
-        title: action.payload.title,
-        desc: '',
-        children: [],
-        links: []
-    }
+    const note = action.payload.note
+    return note
 }
 
 function get_link_obj(action){

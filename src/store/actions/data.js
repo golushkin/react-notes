@@ -48,3 +48,10 @@ export function delete_link(route){
         payload: route
     }
 }
+
+export function change_current_note(route){
+    return {
+        type: NOTE.CHANGE,
+        payload: route
+    }
+}
