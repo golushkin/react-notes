@@ -7,7 +7,6 @@ import {
     ListItem, ListItemText,
     Link
 } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
 import { styled } from '@material-ui/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 

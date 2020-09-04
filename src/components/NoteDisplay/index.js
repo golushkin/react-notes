@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Typography } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 import { routes } from '../../routes'
-import { findNote } from '../../utils'
+import { findNote } from '../../utils/work_with_notes'
 import { DisplayChildren } from './DisplayChildren'
 import { DisplayLinks } from './DisplayLinks'
 
@@ -52,15 +52,37 @@ export class NoteDisplay extends Component {
 
     render() {
         const noteEmpty = Object.keys(this.state.note).length === 0
-        if (noteEmpty) {
+        const notesExist = this.props.notes.length > 0
+        const currentMenuExist = this.props.currentMenu.length > 0
+
+        if (!notesExist && noteEmpty) {
             return (
                 <div className='display'>
                     <Right>
                         <Button onClick={this.handleClick}>Create Note</Button>
                     </Right>
-                    <h1>
+                    <Typography variant='h5'>
                         You don't have any notes, but you can create new if you press 'create new note'
-                    </h1>
+                    </Typography>
+                </div>
+            )
+        }
+        if (notesExist && !currentMenuExist) {
+            return (
+                <div className='display'>
+                    <Typography variant='h5'>
+                        Choose note that you want to see
+                    </Typography>
+                </div>
+            )
+        }
+
+        if (noteEmpty) {
+            return (
+                <div className='display'>
+                    <Typography variant='h5'>
+                        Wait
+                    </Typography>
                 </div>
             )
         }
