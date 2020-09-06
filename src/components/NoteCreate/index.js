@@ -10,7 +10,8 @@ import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 import { get_titles } from '../../utils/work_with_notes'
 import { validate } from '../../utils/validate'
-import { create_note } from '../../store/actions/data'
+import { findNote } from '../../utils/work_with_notes'
+import { create_note, change_current_note } from '../../store/actions/data'
 import { Title } from './Title'
 import { Desc } from './Desc'
 import { Links } from './Links'
@@ -21,9 +22,13 @@ const mapStateToProps = (state) => ({
     notes: state.notes
 })
 
-const mapDispatchToProps = {
-    create_note
-}
+const mapDispatchToProps = dispatch =>({
+    create_note: (info, place) =>{
+        dispatch(create_note(info))
+        const route = info.route.length >0? `${info.route}-${place}`:`${place}`
+        dispatch(change_current_note(route))
+    }
+}) 
 
 export class NoteCreate extends Component {
     constructor(props) {
@@ -51,7 +56,8 @@ export class NoteCreate extends Component {
             },
             route: '',
             saving: false,
-            success: false
+            success: false,
+            place_len: this.props.notes.length
         }
     }
 
@@ -167,15 +173,16 @@ export class NoteCreate extends Component {
     }
 
     handleChangeRoute = (e, value, reason) => {
-        console.log(reason);
         if (reason === 'select-option') {
             this.setState({
-                route: value.route
+                route: value.route,
+                place_len: findNote(this.props.notes, value.route).children.length
             })
         }
         else if (reason === 'clear') {
             this.setState({
-                route: ''
+                route: '',
+                place_len: this.props.notes.length
             })
         }
     }
@@ -205,7 +212,7 @@ export class NoteCreate extends Component {
                 new_note.id = Date.now()
                 this.props.create_note({
                     route, note: new_note
-                })
+                }, this.state.place_len)
                 this.setState({
                     saving: false,
                     success: true
