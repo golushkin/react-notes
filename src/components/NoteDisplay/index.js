@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Typography } from '@material-ui/core'
+import { Button, Typography, Box } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
+import { Edit } from '@material-ui/icons'
 import { routes } from '../../routes'
 import { findNote } from '../../utils/work_with_notes'
 import { DisplayChildren } from './DisplayChildren'
-import { DisplayLinks } from './DisplayLinks'
+import {DisplayLinks} from './DisplayLinks'
 
 const mapStateToProps = (state) => ({
     currentMenu: state.currentMenu,
@@ -21,41 +22,20 @@ const Right = styled('div')({
 
 export class NoteDisplay extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            note: {}
-        }
-    }
-
-    find_note() {
-        this.setState({
-            note: findNote(this.props.notes, this.props.currentMenu)
-        })
-    }
-
     handleClick = () => {
         this.props.history.push(routes.create)
     }
 
-    componentDidMount() {
-        const { currentMenu, notes } = this.props
-        const currentMenuExist = currentMenu.length > 0
-        const notesExist = notes.length > 0
-        const noteEmpty = Object.keys(this.state.note).length === 0
-
-        if (currentMenuExist && notesExist && noteEmpty) {
-            this.find_note()
-        }
+    handleEdit = () =>{
+        const { history, currentMenu } = this.props
+        history.push(`${routes.edit}/${currentMenu}`)
     }
 
     render() {
-        const noteEmpty = Object.keys(this.state.note).length === 0
         const notesExist = this.props.notes.length > 0
         const currentMenuExist = this.props.currentMenu.length > 0
-
-        if (!notesExist && noteEmpty) {
+        
+        if (!notesExist) {
             return (
                 <div className='display'>
                     <Right>
@@ -77,21 +57,14 @@ export class NoteDisplay extends Component {
             )
         }
 
-        if (noteEmpty) {
-            return (
-                <div className='display'>
-                    <Typography variant='h5'>
-                        Wait
-                    </Typography>
-                </div>
-            )
-        }
-
-        const note = this.state.note
+        const note = findNote(this.props.notes, this.props.currentMenu)
         return (
             <div className='display'>
                 <div className="note">
-                    <Typography variant='h5'>{note.title}</Typography>
+                    <Box display="flex" alignItems='center' justifyContent="space-between">
+                        <Typography variant='h5'>{note.title}</Typography>
+                        <Button onClick={this.handleEdit}><Edit/></Button>
+                    </Box>
                     <Typography variant='body1'>{note.desc}</Typography>
                     <DisplayChildren note_children={note.children}/>
                     <DisplayLinks links={note.links}/>

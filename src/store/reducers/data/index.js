@@ -12,10 +12,12 @@ const initialState = {
     currentMenu: '0',
     notes: [
         {
+            id: Date.now(),
             title: 'English',
             desc: 'Useful links for studing english',
             children: [
                 {
+                    id: Date.now(),
                     title: 'speaking',
                     desc: '',
                     children: [],
@@ -27,7 +29,13 @@ const initialState = {
                     link: 'https://localhost.com',
                     desc: 'Local Host',
                     title: 'Site',
-                    img: 'https://yandex.com/weather/static/og_image.png'
+                    image: 'https://yandex.com/weather/static/og_image.png'
+                },
+                {
+                    link: 'https://localhost.com',
+                    desc: 'Local Host1',
+                    title: 'Site',
+                    image: 'https://yandex.com/weather/static/og_image.png'
                 }
             ]
         }

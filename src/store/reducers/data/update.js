@@ -16,13 +16,9 @@ export function update_link(state, action){
 
 function shallow_update(state, action){
     const index = Number(action.payload.route)
-    const notes = state.notes.filter((note, i) => i !== index)
+    state.notes[index] = action.payload.note
     return {
-        ...state,
-        notes: [
-            ...notes,
-            action.payload.note
-        ]
+        ...state
     }
 }
 

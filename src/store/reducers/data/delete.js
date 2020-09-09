@@ -45,9 +45,7 @@ function deep_delete(state, action) {
     if (action.type === NOTE.DELETE)
         note_rec(notes, 1, indexes, action)
     else
-        debugger
         note_rec_link(notes, 1, indexes, action)
-    debugger
     return {
         ...state,
         notes

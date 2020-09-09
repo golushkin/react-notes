@@ -31,7 +31,7 @@ function find_deep_note(notes, route) {
 [{title: '', route: ''}...]
 */
 
-export function get_titles(notes_titles, notes, route, deep) {
+export function get_titles(notes_titles, notes, route = '', deep = 0) {
   notes.forEach((el, i) => {
     let route_l = "";
     if (deep === 0) {

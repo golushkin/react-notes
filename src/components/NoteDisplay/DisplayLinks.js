@@ -12,14 +12,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 export class DisplayLinks extends Component {
 
-    get_domain(link){
+    get_domain(link) {
         return link.match(/\/\w+/)[0].slice(1)
     }
 
-    renderLeft(item){
-        const imgExsist = item.img.length > 0
+    renderLeft(item) {
+        const imgExsist = item.image.length > 0
         if (imgExsist) {
-            return <LeftImg image={item.img} />
+            return <LeftImg image={item.image} />
         }
         return <Left><Typography variant='h6'>{this.get_domain(item.link)}</Typography></Left>
     }
@@ -30,7 +30,7 @@ export class DisplayLinks extends Component {
                 {this.renderLeft(item)}
                 <Right>
                     <StyledHeader title={(
-                        <Link href={item.link} underline='none'>
+                        <Link href={item.link} target='_blank' underline='none'>
                             {item.title}
                         </Link>
                     )} />
@@ -46,6 +46,7 @@ export class DisplayLinks extends Component {
 
     render() {
         return (
+
             <StyledAccordion defaultExpanded={true}>
                 <StyledAccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -58,26 +59,31 @@ export class DisplayLinks extends Component {
                     {this.renderCards()}
                 </StyledAccordionDetails>
             </StyledAccordion>
+
         )
     }
+
 }
 
-const StyledAccordion = styled(Accordion)({
+
+let StyledAccordion = styled(Accordion)({
     boxShadow: 'none',
     marginTop: '10px'
 })
 
-const StyledAccordionSummary = styled(AccordionSummary)({
+let StyledAccordionSummary = styled(AccordionSummary)({
     padding: '0',
 })
 
-const StyledAccordionDetails = styled(AccordionDetails)({
+let StyledAccordionDetails = styled(AccordionDetails)({
+    flexDirection: 'column',
     padding: '8px 0 16px',
 })
 
 const StyledCard = styled(Card)({
     display: 'flex',
-    width: '99%'
+    width: '99%',
+    marginTop: 7
 })
 
 const Left = styled(CardContent)({
@@ -89,7 +95,6 @@ const Left = styled(CardContent)({
 })
 
 const LeftImg = styled(CardMedia)({
-    height: '100%',
     flexBasis: '15%',
 })
 
