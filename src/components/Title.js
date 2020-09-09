@@ -9,7 +9,6 @@ const StyledTextField = styled(TextField)({
 
 export class Title extends React.Component {
 
-
     render() {
         const { valid, touch, value } = this.props.title
         return <StyledTextField

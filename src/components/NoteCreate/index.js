@@ -12,9 +12,9 @@ import { get_titles } from '../../utils/work_with_notes'
 import { validate } from '../../utils/validate'
 import { findNote } from '../../utils/work_with_notes'
 import { create_note, change_current_note } from '../../store/actions/data'
-import { Title } from './Title'
-import { Desc } from './Desc'
-import { Links } from './Links'
+import { Title } from '../Title'
+import { Desc } from '../Desc'
+import { Links } from '../Links'
 import { get_data_from_links } from '../../webservice/RestData'
 import { routes } from '../../routes'
 
@@ -22,13 +22,13 @@ const mapStateToProps = (state) => ({
     notes: state.notes
 })
 
-const mapDispatchToProps = dispatch =>({
-    create_note: (info, place) =>{
+const mapDispatchToProps = dispatch => ({
+    create_note: (info, place) => {
         dispatch(create_note(info))
-        const route = info.route.length >0? `${info.route}-${place}`:`${place}`
+        const route = info.route.length > 0 ? `${info.route}-${place}` : `${place}`
         dispatch(change_current_note(route))
     }
-}) 
+})
 
 export class NoteCreate extends Component {
     constructor(props) {
@@ -195,6 +195,7 @@ export class NoteCreate extends Component {
             title: formControl.title.value,
             desc: formControl.desc.value,
             links: formControl.links.map(link_obj => ({
+                id: link_obj.id,
                 link: link_obj.link.value,
                 desc: link_obj.desc.value,
                 title: link_obj.link.value,
@@ -207,17 +208,17 @@ export class NoteCreate extends Component {
             saving: true
         })
 
-        get_data_from_links(note)
-            .then(new_note => {
-                new_note.id = Date.now()
+        get_data_from_links(note.links)
+            .then(new_links => {
+                note.links = new_links
                 this.props.create_note({
-                    route, note: new_note
+                    route, note
                 }, this.state.place_len)
                 this.setState({
                     saving: false,
                     success: true
                 })
-                setTimeout(()=>this.props.history.push(routes.home),1000)
+                setTimeout(() => this.props.history.push(routes.home), 1000)
             })
     }
 
@@ -230,7 +231,7 @@ export class NoteCreate extends Component {
         const { success, saving } = this.state
         if (saving || success) {
             return <div className="note-create">
-                {success && <StyledIcon fontSize='large' style={{ color: green[500] }}/>}
+                {success && <StyledIcon fontSize='large' style={{ color: green[500] }} />}
                 {saving && <StyledProgress />}
             </div>
         }
@@ -251,7 +252,7 @@ export class NoteCreate extends Component {
                         links={links}
                         handleChange={this.handleChange}
                         deleteLink={this.deleteLink} />
-                    
+
                     <Button onClick={this.goBack}>Cancel</Button>
                     <Button onClick={this.submit} disabled={!this.state.formValid} type='submit'>save</Button>
                 </form>
