@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Typography, Box, Grid } from '@material-ui/core'
+import {
+    Button, Typography,
+    Box, Grid, Hidden
+} from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 import { Edit } from '@material-ui/icons'
 import { Sidebar } from './Sidebar'
@@ -84,9 +87,15 @@ export class NoteDisplay extends Component {
 function withSidbar(component, props) {
     return (
         <Grid container spacing={1}>
-            <Grid item xs={2}><Sidebar {...props} /></Grid>
-            <Grid item xs={10}>
-                {component}
+            <Hidden smDown>
+                <Grid item xs={2}>
+                    <Sidebar {...props} />
+                </Grid>
+            </Hidden>
+            <Grid item xs={true}>
+                <Box padding={1}>
+                    {component}
+                </Box>
             </Grid>
         </Grid>
     )

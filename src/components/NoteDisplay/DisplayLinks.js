@@ -82,7 +82,7 @@ let StyledAccordionDetails = styled(AccordionDetails)({
 
 const StyledCard = styled(Card)({
     display: 'flex',
-    width: '99%',
+    width: '100%',
     marginTop: 7
 })
 
