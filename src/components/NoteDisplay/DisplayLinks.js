@@ -31,7 +31,7 @@ export class DisplayLinks extends Component {
                 <Right>
                     <StyledHeader title={(
                         <Link href={item.link} target='_blank' underline='none'>
-                            {item.title}
+                            {item.title.substring(0, 45)}
                         </Link>
                     )} />
                     <StyledContent>
