@@ -4,7 +4,7 @@ import {
     Button, CircularProgress,
     Dialog, DialogActions,
     DialogContentText, DialogTitle,
-    DialogContent
+    DialogContent, Box
 } from '@material-ui/core'
 import { styled } from '@material-ui/core'
 import { green } from '@material-ui/core/colors';
@@ -291,7 +291,7 @@ export class NoteEdit extends Component {
             </div>
         }
         return (
-            <div className='note-create'>
+            <Box padding={1} className='note-edit'>
                 <form>
                     <Title title={title} callback={this.handleChange} />
                     <Desc value={desc.value} callback={this.handleChange} />
@@ -324,7 +324,7 @@ export class NoteEdit extends Component {
                         </DialogActions>
                     </Dialog>
                 </form>
-            </div>
+            </Box>
         )
     }
 }

@@ -3,19 +3,7 @@ import { Button, Link } from '@material-ui/core'
 import { Link as RouterLink } from 'react-router-dom'
 import { TreeItem, TreeView } from '@material-ui/lab'
 import { ExpandMore, ChevronRight } from '@material-ui/icons'
-import { connect } from 'react-redux'
-import { change_current_note } from '../store/actions/data'
-import { routes } from '../routes'
-
-const mapStateToProps = state => ({
-    currentMenu: state.currentMenu,
-    notes: state.notes
-})
-
-const mapDispatchToProps = {
-    change_current_note
-}
-
+import { routes } from '../../routes'
 
 function get_expand_arr(route) {
     if (route.length === 0) {
@@ -56,7 +44,6 @@ export class Sidebar extends Component {
     }
 
     render() {
-
         return (
             <div className="sidebar">
                 <TreeView
@@ -78,4 +65,3 @@ export class Sidebar extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

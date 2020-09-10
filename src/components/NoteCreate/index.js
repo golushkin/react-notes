@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-    Button, TextField, CircularProgress
+    Button, TextField, CircularProgress, Box
 } from '@material-ui/core'
 
 import { Autocomplete } from '@material-ui/lab'
@@ -236,7 +236,7 @@ export class NoteCreate extends Component {
             </div>
         }
         return (
-            <div className='note-create'>
+            <Box padding={1} className='note-create'>
                 <form>
                     <Autocomplete
                         id="combo-box-demo"
@@ -256,7 +256,7 @@ export class NoteCreate extends Component {
                     <Button onClick={this.goBack}>Cancel</Button>
                     <Button onClick={this.submit} disabled={!this.state.formValid} type='submit'>save</Button>
                 </form>
-            </div>
+            </Box>
         )
     }
 }
