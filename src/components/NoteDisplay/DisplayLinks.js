@@ -30,8 +30,8 @@ export class DisplayLinks extends Component {
                 {this.renderLeft(item)}
                 <Right>
                     <StyledHeader title={(
-                        <Link href={item.link} target='_blank' underline='none'>
-                            {item.title.substring(0, 45)}
+                        <Link rel="noopener" href={item.link} target='_blank' underline='none'>
+                            {item.link_title.substring(0, 45)}
                         </Link>
                     )} />
                     <StyledContent>

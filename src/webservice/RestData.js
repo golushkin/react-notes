@@ -9,9 +9,9 @@ export function get_data_from_links(links) {
           if (result.status === "fulfilled") {
             let domparser = new DOMParser()
             let doc = domparser.parseFromString(result.value.data, 'text/html')
-            let title = doc.querySelector('meta[property="og:title"]').getAttribute('content')
+            let link_title = doc.querySelector('meta[property="og:title"]').getAttribute('content')
             let image = doc.querySelector('meta[property="og:image"]').getAttribute('content')
-            return { ...links[i], title, image }
+            return { ...links[i], link_title, image }
           }
           if (result.status === "rejected") {
             return links[i]

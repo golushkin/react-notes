@@ -9,7 +9,7 @@ import { styled } from '@material-ui/core'
 import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 import { get_titles } from '../../utils/work_with_notes'
-import { validate } from '../../utils/validate'
+import { validate, isFormValid } from '../../utils/validate'
 import { findNote } from '../../utils/work_with_notes'
 import { create_note, change_current_note } from '../../store/actions/data'
 import { Title } from '../Title'
@@ -73,21 +73,6 @@ export class NoteCreate extends Component {
         }
     }
 
-    isFormValid(formControl) {
-        let formValid = true
-        for (let element in formControl) {
-            if (Array.isArray(formControl[element])) {
-                for (let item of formControl[element]) {
-                    formValid = item.link.valid.isValid && formValid
-                }
-            }
-            else {
-                formValid = formControl[element].valid.isValid && formValid
-            }
-        }
-        return formValid
-    }
-
     handleChange = (e, index = 0, type = 'note') => {
 
         const name = e.target.name
@@ -131,7 +116,7 @@ export class NoteCreate extends Component {
 
         this.setState({
             formControl,
-            formValid: this.isFormValid(formControl)
+            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true)
         })
     }
 
@@ -161,7 +146,7 @@ export class NoteCreate extends Component {
 
                     }
                 },
-                title: '',
+                link_title: '',
                 image: ''
             }
         ]
@@ -198,7 +183,7 @@ export class NoteCreate extends Component {
                 id: link_obj.id,
                 link: link_obj.link.value,
                 desc: link_obj.desc.value,
-                title: link_obj.link.value,
+                link_title: link_obj.link.value,
                 image: ""
             })),
             children: [],

@@ -9,7 +9,7 @@ import {
 import { styled } from '@material-ui/core'
 import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
-import { validate } from '../../utils/validate'
+import { validate, isFormValid } from '../../utils/validate'
 import { findNote } from '../../utils/work_with_notes'
 import { update_note, change_current_note, delete_note } from '../../store/actions/data'
 import { Title } from '../Title'
@@ -53,7 +53,7 @@ function get_state_links(note) {
 
             }
         },
-        title: item.title,
+        link_title: item.link_title,
         image: item.image
     }))
 }
@@ -96,21 +96,6 @@ export class NoteEdit extends Component {
         this.props.history.goBack()
     }
 
-    isFormValid(formControl) {
-        let formValid = true
-        for (let element in formControl) {
-            if (element === 'links') {
-                for (let item of formControl[element]) {
-                    formValid = item.link.valid.isValid && formValid
-                }
-            }
-            else if (!Array.isArray(formControl[element])) {
-                formValid = formControl[element].valid.isValid && formValid
-            }
-        }
-        return formValid
-    }
-
     handleChange = (e, index = 0, type = 'note') => {
 
         const name = e.target.name
@@ -141,7 +126,7 @@ export class NoteEdit extends Component {
         }
 
         this.setState({
-            formValid: this.isFormValid(formControl),
+            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true),
             formControl
         })
     }
@@ -184,7 +169,7 @@ export class NoteEdit extends Component {
 
                     }
                 },
-                title: '',
+                link_title: '',
                 image: ''
             }
         ]
@@ -223,7 +208,7 @@ export class NoteEdit extends Component {
             id: link_obj.id,
             link: link_obj.link.value,
             desc: link_obj.desc.value,
-            title: link_obj.title,
+            link_title: link_obj.link_title,
             image: link_obj.image
         }))
         const original_links_id = note.links.map(item => item.id)

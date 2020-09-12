@@ -28,13 +28,13 @@ const initialState = {
                 {
                     link: 'https://localhost.com',
                     desc: 'Local Host',
-                    title: 'Site',
+                    link_title: 'Site',
                     image: 'https://yandex.com/weather/static/og_image.png'
                 },
                 {
                     link: 'https://localhost.com',
                     desc: 'Local Host1',
-                    title: 'Site',
+                    link_title: 'Site',
                     image: 'https://yandex.com/weather/static/og_image.png'
                 }
             ]
