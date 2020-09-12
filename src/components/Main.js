@@ -7,6 +7,7 @@ import NoteDisplay from './NoteDisplay/index'
 import NoteEdit from './NoteEdit/index'
 import { routes } from '../routes'
 import Header from './Header'
+import UserSign from './User/UserSign'
 
 const StyledPaper = styled(Paper)({
     margin: '2.5% auto',
@@ -22,6 +23,7 @@ export class Main extends Component {
                         <Switch>
                             <Route path={routes.home} exact component={NoteDisplay} />
                             <Route path={routes.create} component={NoteCreate} />
+                            <Route path={routes.sign_up} component={UserSign} />
                             <Route path={`${routes.edit}/:route`} component={NoteEdit} />
                             <Redirect to={routes.home} />
                         </Switch>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {
     AppBar, IconButton,
-    Toolbar, Button,
-    Typography, Box,
-    Drawer, Hidden
+    Toolbar, Button, Box,
+    Drawer, Hidden, Link
 } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { Menu } from '@material-ui/icons'
-import { styled } from '@material-ui/styles'
+import { Link as RouterLink } from 'react-router-dom'
+import { routes } from '../routes'
 import { change_current_note } from '../store/actions/data'
 import { Sidebar } from './NoteDisplay/Sidebar'
 
@@ -48,9 +48,13 @@ export class Header extends Component {
                             </IconButton>
                         </Hidden>
                         <Box display="flex" justifyContent="flex-end" flexGrow='1'>
-                            <Button color="inherit">Sign In</Button>
                             <Button color="inherit">Sign Out</Button>
-                            <Button color="inherit">Sign Up</Button>
+                            <Button color="inherit">
+                                <Link color='inherit' component={RouterLink} to={routes.sign_up}>
+                                    Sign Up/In
+                                </Link>
+                            </Button>
+
                         </Box>
                     </Toolbar>
                 </AppBar>
