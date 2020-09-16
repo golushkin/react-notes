@@ -2,7 +2,7 @@ export const NOTE = {
     CREATE: 'CREATE_NOTE',
     UPDATE:'UPDATE_NOTE',
     DELETE: 'DELETE_NOTE',
-    CHANGE: 'CHANGE_NOTE'
+    CHANGE: 'CHANGE_CURRENT_MENU'
 }
 
 export const LINK = {

@@ -97,7 +97,6 @@ export class NoteEdit extends Component {
     }
 
     handleChange = (e, index = 0, type = 'note') => {
-
         const name = e.target.name
         const value = e.target.value
 
@@ -139,7 +138,7 @@ export class NoteEdit extends Component {
 
         this.setState({
             formControl,
-            formValid: this.isFormValid(formControl)
+            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true)
         })
     }
 
@@ -276,7 +275,7 @@ export class NoteEdit extends Component {
             </div>
         }
         return (
-            <Box padding={1} className='note-edit'>
+            <Box padding={1} data-testid={'note-edit'} className='note-edit'>
                 <form>
                     <Title title={title} callback={this.handleChange} />
                     <Desc value={desc.value} callback={this.handleChange} />
@@ -284,10 +283,11 @@ export class NoteEdit extends Component {
                         links={links}
                         handleChange={this.handleChange}
                         deleteLink={this.deleteLink} />
-                    <Button onClick={this.goBack}>Cancel</Button>
-                    <Button onClick={this.submit} disabled={!this.state.formValid}>Update</Button>
-                    <Button onClick={this.handleOpenModal} color='secondary'>Delete Note</Button>
+                    <Button data-testid={'btn-cancel'} onClick={this.goBack}>Cancel</Button>
+                    <Button data-testid={'btn-update'} onClick={this.submit} disabled={!this.state.formValid}>Update</Button>
+                    <Button data-testid={'btn-delete'} onClick={this.handleOpenModal} color='secondary'>Delete Note</Button>
                     <Dialog
+                        data-testid={'edit-dialog'}
                         open={this.state.open_modal}
                         onClose={this.handleCloseModal}
                         aria-labelledby="alert-dialog-title"
@@ -300,10 +300,10 @@ export class NoteEdit extends Component {
                         </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={this.handleCloseModal} color="primary">
+                            <Button data-testid={'btn-dialog-dis'} onClick={this.handleCloseModal} color="primary">
                                 Disagree
                             </Button>
-                            <Button onClick={this.handleDeleteNote} color="primary" autoFocus>
+                            <Button data-testid={'btn-dialog-ag'} onClick={this.handleDeleteNote} color="primary" autoFocus>
                                 Agree
                             </Button>
                         </DialogActions>

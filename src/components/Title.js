@@ -14,6 +14,7 @@ export class Title extends React.Component {
         return <StyledTextField
             value={value}
             label='Title'
+            inputProps={{'data-testid':'edit-title'}}
             error={touch && !valid.isValid}
             helperText={valid.msg.join(', ')}
             fullWidth

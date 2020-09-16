@@ -1,5 +1,5 @@
-import { data } from '../store/reducers/data'
-import { NOTE, LINK } from '../store/const'
+import { data } from '../../store/reducers/data'
+import { NOTE, LINK } from '../../store/const'
 import { get_empty_state, get_state_for_deep, get_state_for_shallow } from './states'
 
 /* ADD NOTES */

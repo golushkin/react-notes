@@ -2,45 +2,11 @@ import { LINK, NOTE } from '../../const'
 import { create_note, create_link } from "./create"
 import { update_note, update_link } from "./update"
 import { delete_smt } from "./delete"
-
+import { initialState } from './initialState'
 // const initialState = {
 //     currentMenu: '',
 //     notes: []
 // }
-
-const initialState = {
-    currentMenu: '0',
-    notes: [
-        {
-            id: Date.now(),
-            title: 'English',
-            desc: 'Useful links for studing english',
-            children: [
-                {
-                    id: Date.now(),
-                    title: 'speaking',
-                    desc: '',
-                    children: [],
-                    links: []
-                }
-            ],
-            links: [
-                {
-                    link: 'https://localhost.com',
-                    desc: 'Local Host',
-                    link_title: 'Site',
-                    image: 'https://yandex.com/weather/static/og_image.png'
-                },
-                {
-                    link: 'https://localhost.com',
-                    desc: 'Local Host1',
-                    link_title: 'Site',
-                    image: 'https://yandex.com/weather/static/og_image.png'
-                }
-            ]
-        }
-    ]
-}
 
 export function data(state = initialState, action){ 
     switch (action.type){

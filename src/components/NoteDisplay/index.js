@@ -30,10 +30,6 @@ const Right = styled('div')({
 
 export class NoteDisplay extends Component {
 
-    handleClick = () => {
-        this.props.history.push(routes.create)
-    }
-
     handleEdit = () => {
         const { history, currentMenu } = this.props
         history.push(`${routes.edit}/${currentMenu}`)
@@ -51,30 +47,28 @@ export class NoteDisplay extends Component {
         if (!notesExist) {
             return withSidbar((
                 <div className='display'>
-                    <Right>
-                        <Button onClick={this.handleClick}>Create Note</Button>
-                    </Right>
-                    <Typography variant='h5'>
-                        You don't have any notes, but you can create new if you press 'create new note'
+                    <Typography variant='subtitle1'>
+                        You don't have any notes, but you can create
+                        new if you press 'create note'
                     </Typography>
                 </div>
             ), props_obj)
         }
         if (notesExist && !currentMenuExist) {
             return withSidbar((<div className='display'>
-                <Typography variant='h5'>
+                <Typography variant='subtitle1'>
                     Choose note that you want to see
-            </Typography>
+                </Typography>
             </div>), props_obj)
 
         }
 
         const note = findNote(props_obj.notes, props_obj.currentMenu)
         return withSidbar((<div className='display'>
-            <div className="note">
+            <div data-testid='note' className="note">
                 <Box display="flex" alignItems='center' justifyContent="space-between">
                     <Typography variant='h5'>{note.title}</Typography>
-                    <Button onClick={this.handleEdit}><Edit /></Button>
+                    <Button data-testid='edit-btn' onClick={this.handleEdit}><Edit /></Button>
                 </Box>
                 <Typography variant='body1'>{note.desc}</Typography>
                 <DisplayChildren note_children={note.children} />

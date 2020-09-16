@@ -36,7 +36,7 @@ export class Sidebar extends Component {
                 route_l = `${route}-${i}`;
             }
             return (
-                <TreeItem key={item.id} nodeId={route_l} label={item.title}>
+                <TreeItem data-testid={route_l} key={item.id} nodeId={route_l} label={item.title}>
                     {item.children.length > 0 ? this.renderTree(item.children, route_l, deep + 1) : null}
                 </TreeItem>
             )
@@ -51,6 +51,7 @@ export class Sidebar extends Component {
                     defaultCollapseIcon={<ExpandMore />}
                     defaultExpandIcon={<ChevronRight />}
                     onNodeSelect={(e, value) => this.props.change_current_note(value)}
+                    data-testid='tree'
                 >
                     {this.renderTree(this.props.notes)}
                 </TreeView>

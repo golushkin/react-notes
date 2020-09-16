@@ -1,5 +1,5 @@
-import { data } from '../store/reducers/data'
-import { NOTE, LINK } from '../store/const'
+import { data } from '../../store/reducers/data'
+import { NOTE, LINK } from '../../store/const'
 import {
     get_state_for_deep,
     get_state_for_shallow,
@@ -90,5 +90,16 @@ test('update exsisting children link', () => {
                 link: 'https://test-link1.com'
             }
         }
+    })).toEqual(expect_obj)
+})
+
+//-------------------------------------------------------
+test('update currentMenu', () => {
+    let expect_obj = get_state_for_deep()
+    expect_obj.currentMenu = '0'
+
+    expect(data(get_state_for_deep(), {
+        type: NOTE.CHANGE,
+        payload: '0'
     })).toEqual(expect_obj)
 })

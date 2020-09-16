@@ -59,7 +59,7 @@ function isFormValidDeep(formControls, exclude){
         if(!exclude.includes(field)){
             if (Array.isArray(formControls[field])) {
                 for(let array_item of formControls[field]){
-                    formValid = isFormValidShallow(array_item, exclude)
+                    formValid = isFormValidShallow(array_item, exclude) && formValid
                 }
             }
             else{

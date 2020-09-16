@@ -103,7 +103,7 @@ export class NoteCreate extends Component {
         }
 
         this.setState({
-            formValid: this.isFormValid(formControl),
+            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true),
             formControl
         })
     }
@@ -221,11 +221,13 @@ export class NoteCreate extends Component {
             </div>
         }
         return (
-            <Box padding={1} className='note-create'>
+            <Box padding={1} data-testid={'note-create'} className='note-create'>
                 <form>
                     <Autocomplete
                         id="combo-box-demo"
+                        ListboxProps={{'data-testid':'auto-list'}}
                         options={this.state.notes_titles}
+                        data-testid='autocomplete'
                         disabled={this.state.notes_titles.length > 0 ? false : true}
                         getOptionLabel={(option) => option.title}
                         renderInput={(params) => <TextField {...params} label="Parent Node" variant="outlined" />}
@@ -238,8 +240,8 @@ export class NoteCreate extends Component {
                         handleChange={this.handleChange}
                         deleteLink={this.deleteLink} />
 
-                    <Button onClick={this.goBack}>Cancel</Button>
-                    <Button onClick={this.submit} disabled={!this.state.formValid} type='submit'>save</Button>
+                    <Button data-testid='btn-cancel' onClick={this.goBack}>Cancel</Button>
+                    <Button data-testid='btn-create' onClick={this.submit} disabled={!this.state.formValid} type='submit'>save</Button>
                 </form>
             </Box>
         )

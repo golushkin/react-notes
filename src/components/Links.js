@@ -12,8 +12,8 @@ export class Links extends Component {
     render() {
         return (
             <CreateLinks>
-                <Button onClick={this.props.createLink}>Create New Link</Button>
-                <List>
+                <Button data-testid={'btn-create-link'} onClick={this.props.createLink}>Create New Link</Button>
+                <List data-testid={'edit-links'}>
                     {this.props.links.map((item, i) => (
                         <ListItem key={i}>
                             <GroupInputs>
@@ -22,6 +22,7 @@ export class Links extends Component {
                                     value={item.link.value}
                                     error={item.link.touch && !item.link.valid.isValid}
                                     helperText={item.link.valid.msg.join(', ')}
+                                    inputProps={{'data-testid':`edit-link-${i}`}}
                                     required
                                     fullWidth
                                     onChange={(e) => this.props.handleChange(e, i, 'link')} />
