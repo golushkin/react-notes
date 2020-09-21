@@ -12,11 +12,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 export class DisplayChildren extends Component {
     renderListItems() {
-        return this.props.note_children.map((item, i) => (
+        const { note_children, change_current_note, currentMenu } = this.props
+        return note_children.map((item, i) => (
             <ListItem key={i}>
                 <ListItemText primary={<StyleLink href='#'
                     underline='none'
-                    onClick={() => console.log(i)} variant='body1'>
+                    onClick={() => change_current_note(`${currentMenu}-${i}`)} variant='body1'>
                     {i + 1}. {item.title}
                 </StyleLink>} />
             </ListItem>

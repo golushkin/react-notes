@@ -9,14 +9,14 @@ import {
 import { styled } from '@material-ui/core'
 import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
-import { validate, isFormValid } from '../../utils/validate'
-import { findNote } from '../../utils/work_with_notes'
-import { update_note, change_current_note, delete_note } from '../../store/actions/data'
-import { Title } from '../Title'
-import { Desc } from '../Desc'
-import { Links } from '../Links'
-import { get_data_from_links } from '../../webservice/RestData'
-import { routes } from '../../routes'
+import { validate, isFormValid } from '../utils/validate'
+import { findNote } from '../utils/work_with_notes'
+import { update_note, change_current_note, delete_note } from '../store/actions/data'
+import { Title } from './FormElements/Title'
+import { Desc } from './FormElements/Desc'
+import { Links } from './FormElements/Links'
+import { get_data_from_links } from '../webservice/RestData'
+import { routes } from '../routes'
 
 const mapStateToProps = (state) => ({
     notes: state.notes
@@ -195,7 +195,6 @@ export class NoteEdit extends Component {
 
     submit = (e) => {
         e.preventDefault()
-        debugger
         const { formControl, route, note } = this.state
         const note_obj = {
             id: note.id,

@@ -22,12 +22,6 @@ const mapDispatchToProps = {
     change_current_note
 }
 
-const Right = styled('div')({
-    display: 'flex',
-    justifyContent: 'flex-end'
-})
-
-
 export class NoteDisplay extends Component {
 
     handleEdit = () => {
@@ -68,10 +62,10 @@ export class NoteDisplay extends Component {
             <div data-testid='note' className="note">
                 <Box display="flex" alignItems='center' justifyContent="space-between">
                     <Typography variant='h5'>{note.title}</Typography>
-                    <Button data-testid='edit-btn' onClick={this.handleEdit}><Edit /></Button>
+                    <Button id='edit-btn' onClick={this.handleEdit}><Edit /></Button>
                 </Box>
                 <Typography variant='body1'>{note.desc}</Typography>
-                <DisplayChildren note_children={note.children} />
+                <DisplayChildren currentMenu={props_obj.currentMenu} change_current_note={props_obj.change_current_note} note_children={note.children} />
                 <DisplayLinks links={note.links} />
             </div>
         </div>), props_obj)
