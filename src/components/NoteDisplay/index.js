@@ -2,38 +2,88 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
     Button, Typography,
-    Box, Grid, Hidden
+    Box, Grid, Hidden,
+    CircularProgress,
 } from '@material-ui/core'
-import { styled } from '@material-ui/styles'
 import { Edit } from '@material-ui/icons'
 import { Sidebar } from './Sidebar'
 import { routes } from '../../routes'
 import { findNote } from '../../utils/work_with_notes'
 import { DisplayChildren } from './DisplayChildren'
 import { DisplayLinks } from './DisplayLinks'
-import { change_current_note } from '../../store/actions/data'
+import { change_current_note, save_notes } from '../../store/actions/data'
+import { log_out_user } from '../../store/actions/user'
+import { show_err } from '../../store/actions/error'
+import { ServerReq } from '../../webservice/ServerReq'
+
 
 const mapStateToProps = (state) => ({
-    currentMenu: state.currentMenu,
-    notes: state.notes
+    currentMenu: state.note.currentMenu,
+    notes: state.note.notes,
+    token: state.user.token,
 })
 
 const mapDispatchToProps = {
-    change_current_note
+    change_current_note,
+    save_notes,
+    log_out_user,
+    show_err
 }
 
 export class NoteDisplay extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            spinner: true,
+            show_snack: false,
+            error: ''
+        }
+    }
 
     handleEdit = () => {
         const { history, currentMenu } = this.props
         history.push(`${routes.edit}/${currentMenu}`)
     }
 
+    componentDidMount() {
+        const server = new ServerReq()
+        const { token, save_notes, log_out_user } = this.props
+
+        server
+            .get_notes(token)
+            .then(res => {
+                save_notes(res.data)
+                this.setState({ spinner: false })
+            })
+            .catch(err => {
+                const data = err.response.data
+                show_err(err)
+                if (data.error.name === 'TokenExpiredError') {
+                    setTimeout(() => log_out_user(), 4000)
+                }
+            })
+    }
+
+    handleClose = () => {
+        this.setState({ show_snack: false, error: '' })
+    }
+
     render() {
+        const { spinner } = this.state
+
+        if (spinner) {
+            return <Box display='flex' justifyContent='center'>
+                <CircularProgress />
+            </Box>
+        }
+        const { currentMenu, notes, change_current_note } = this.props
+
         const props_obj = {
-            notes: this.props.notes,
-            currentMenu: this.props.currentMenu,
-            change_current_note: this.props.change_current_note
+            notes,
+            currentMenu,
+            change_current_note,
         }
         const notesExist = props_obj.notes.length > 0
         const currentMenuExist = props_obj.currentMenu.length > 0

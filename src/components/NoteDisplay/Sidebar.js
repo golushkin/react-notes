@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { TreeItem, TreeView } from '@material-ui/lab'
 import { ExpandMore, ChevronRight } from '@material-ui/icons'
 import { routes } from '../../routes'
+import TreeEl from './TreeEl'
 
 function get_expand_arr(route) {
     if (route.length === 0) {
@@ -36,9 +37,12 @@ export class Sidebar extends Component {
                 route_l = `${route}-${i}`;
             }
             return (
-                <TreeItem data-testid={route_l} key={item.id} nodeId={route_l} label={item.title}>
-                    {item.children.length > 0 ? this.renderTree(item.children, route_l, deep + 1) : null}
-                </TreeItem>
+                <TreeEl key={`${item._id}-${i}`} item={item} route_l={route_l}>
+                    <TreeItem nodeId={route_l} label={item.title}>
+                        {item.hasOwnProperty("children") && item.children.length > 0 ? this.renderTree(item.children, route_l, deep + 1) : null}
+                    </TreeItem>
+                </TreeEl>
+
             )
         })
     }
@@ -47,7 +51,7 @@ export class Sidebar extends Component {
         return (
             <div className="sidebar">
                 <TreeView
-                    expanded={get_expand_arr(this.props.currentMenu)}
+                    //expanded={get_expand_arr(this.props.currentMenu)}
                     defaultCollapseIcon={<ExpandMore />}
                     defaultExpandIcon={<ChevronRight />}
                     onNodeSelect={(e, value) => this.props.change_current_note(value)}

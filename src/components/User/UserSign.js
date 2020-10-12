@@ -3,17 +3,30 @@ import {
     Box, Slide,
     Button, Typography,
 } from '@material-ui/core'
+import { connect } from 'react-redux'
 import { SignUpForm } from './SignUpForm'
 import { SignInForm } from './SignInForm'
+import { sign_up_user, log_in_user } from '../../store/actions/user'
+import { show_err } from '../../store/actions/error'
 import { routes } from '../../routes'
 
-export default class UserCreate extends Component {
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+const mapDispatchToProps = {
+    show_err,
+    sign_up_user,
+    log_in_user
+}
+
+export class UserSign extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            sign_up: this.props.match.path === routes.sign_up,
-            sign_in: this.props.match.path === routes.sign_in,
+            sign_up: true,
+            sign_in: false,
         }
     }
 
@@ -42,15 +55,20 @@ export default class UserCreate extends Component {
 
     render() {
         let { sign_up, sign_in } = this.state
+        const { sign_up_user, log_in_user, show_err, user, history } = this.props
+
+        if (user.token) {
+            history.replace(routes.home) 
+        }
   
         return (
             <Box overflow='hidden'>
                 <Box width={'50%'} margin='0 auto'>
                     <Slide direction="left" in={sign_up} mountOnEnter unmountOnExit onExited={() => this.setState({ sign_in: true })}>
-                        <SignUpForm />
+                        <SignUpForm sign_up_user={sign_up_user} show_err={show_err}/>
                     </Slide>
                     <Slide direction="right" in={sign_in} mountOnEnter unmountOnExit onExited={() => this.setState({ sign_up: true })}>
-                        <SignInForm />
+                        <SignInForm log_in_user={log_in_user} show_err={show_err}/>
                     </Slide>
                     <Box>
                         {this.renderButton()}
@@ -60,3 +78,6 @@ export default class UserCreate extends Component {
         )
     }
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSign)

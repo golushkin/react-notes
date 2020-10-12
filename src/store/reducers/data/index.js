@@ -1,5 +1,5 @@
-import { LINK, NOTE } from '../../const'
-import { create_note, create_link } from "./create"
+import { LINK, NOTE, WEB } from '../../const'
+import { create_note, create_link, populate_note } from "./create"
 import { update_note, update_link } from "./update"
 import { delete_smt } from "./delete"
 import { initialState } from './initialState'
@@ -10,6 +10,13 @@ import { initialState } from './initialState'
 
 export function data(state = initialState, action){ 
     switch (action.type){
+        case WEB.SAVE:
+            return {...state, notes: action.payload}
+
+        case NOTE.POPULATE:
+            state.notes = [...state.notes]
+            return populate_note(state, action)
+
         case NOTE.CREATE:
             return create_note(state, action)
         case LINK.CREATE:
@@ -31,7 +38,7 @@ export function data(state = initialState, action){
             }
         
         default:
-            return state
+            return {...state}
     }
 }
 

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store'
+import { log_in_user } from './store/actions/user'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -19,6 +20,11 @@ if (!Promise.allSettled) {
   };
 }
 
+const user = localStorage.getItem('user')
+
+if (user) {
+    store.dispatch(log_in_user(JSON.parse(user)))
+}
 
 ReactDOM.render(
   <Router>

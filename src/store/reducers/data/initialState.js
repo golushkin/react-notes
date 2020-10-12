@@ -1,4 +1,10 @@
 export const initialState = {
+    currentMenu: '',
+    notes: []
+}
+
+/*
+initialState = {
     currentMenu: '0',
     notes: [
         {
@@ -31,3 +37,5 @@ export const initialState = {
         }
     ]
 }
+
+*/

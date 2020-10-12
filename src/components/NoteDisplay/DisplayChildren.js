@@ -25,6 +25,10 @@ export class DisplayChildren extends Component {
     }
 
     render() {
+        const note_children = this.props.note_children
+        if (!note_children.length) {
+            return null
+        }
         return (
             <StyledAccordion defaultExpanded={true}>
                 <StyledAccordionSummary

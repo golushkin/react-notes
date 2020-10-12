@@ -1,4 +1,7 @@
 export function findNote(notes, route) {
+  if (!notes.length) {
+    return {}
+  }
   if (route.length > 1) {
     return find_deep_note(notes, route)
   }
@@ -27,24 +30,23 @@ function find_deep_note(notes, route) {
 }
 
 
-/*get all node's titles recursive
-[{title: '', route: ''}...]
-*/
 
-export function get_titles(notes_titles, notes, route = '', deep = 0) {
+export function get_titles(notes_titles, notes, route = '', deep = 0, head = undefined) {
   notes.forEach((el, i) => {
     let route_l = "";
     if (deep === 0) {
+      //head = el._id
       route_l = `${i}`;
     } else {
       route_l = `${route}-${i}`;
     }
     if (el.children.length > 0) {
-      get_titles(notes_titles, el.children, route_l, deep + 1);
+      get_titles(notes_titles, el.children, route_l, deep + 1)// head)
     }
     notes_titles.push({
       title: el.title,
-      route: route_l
+      route: route_l,
+      //head
     });
   });
 }

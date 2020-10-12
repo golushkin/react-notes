@@ -29,8 +29,8 @@ export class DisplayLinks extends Component {
             <StyledCard key={i}>
                 {this.renderLeft(item)}
                 <Right>
-                    <StyledHeader title={(
-                        <Link rel="noopener" href={item.link} target='_blank' underline='none'>
+                    <StyledHeader disableTypography title={(
+                        <Link variant='h6' rel="noopener" href={item.link} target='_blank' underline='none'>
                             {item.link_title.substring(0, 45)}
                         </Link>
                     )} />
@@ -45,8 +45,11 @@ export class DisplayLinks extends Component {
     }
 
     render() {
+        const links = this.props.links
+        if (!links.length) {
+            return null
+        }
         return (
-
             <StyledAccordion defaultExpanded={true}>
                 <StyledAccordionSummary
                     expandIcon={<ExpandMoreIcon />}

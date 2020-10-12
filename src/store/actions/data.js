@@ -1,4 +1,22 @@
-import { LINK, NOTE } from "../const"
+import { LINK, NOTE, WEB } from "../const"
+
+
+export function populate_note(note_children, route){
+    return {
+        type: NOTE.POPULATE,
+        payload:{
+            note_children,
+            route
+        }
+    }
+}
+
+export function save_notes(notes){
+    return {
+        type: WEB.SAVE,
+        payload: notes
+    }
+}
 
 export function create_note(info){
     return {

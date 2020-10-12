@@ -1,17 +1,22 @@
 import React, { Component } from 'react'
 import {
-    Box, TextField,
-    Button, Typography,
+    Box,
+    TextField,
+    Button,
+    CircularProgress
 } from '@material-ui/core'
 import { validate, isFormValid } from '../../utils/validate'
+import { ServerReq } from '../../webservice/ServerReq'
+import { save_user_to_storage } from '../../utils/storage'
 
 export class SignInForm extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
             formValid: false,
+            show_spinner: false,
             formControls: {
                 user: {
                     value: "",
@@ -20,7 +25,7 @@ export class SignInForm extends Component {
                         isValid: false,
                         msg: []
                     },
-                    validationRules:{
+                    validationRules: {
                         isRequired: true
                     }
                 },
@@ -31,7 +36,7 @@ export class SignInForm extends Component {
                         isValid: false,
                         msg: []
                     },
-                    validationRules:{
+                    validationRules: {
                         isRequired: true
                     }
                 },
@@ -39,7 +44,7 @@ export class SignInForm extends Component {
         }
     }
 
-    handleChange = (e) =>{
+    handleChange = (e) => {
         const { name, value } = e.target
         const formControls = {
             ...this.state.formControls
@@ -59,16 +64,49 @@ export class SignInForm extends Component {
             formControls
         })
     }
+    
+    logIn = () => {
+        const server = new ServerReq()
+        const formControls = this.state.formControls
+        const show_err = this.props.show_err
+        const user = {
+            username: formControls.user.value,
+            pass: formControls.pass.value
+        }
+
+        this.setState({show_spinner: true})
+
+        server
+            .log_in(user)
+            .then(res => {
+                save_user_to_storage(res.data)
+                this.props.log_in_user(res.data)
+            })
+            .catch(err => {
+                show_err(err)
+                this.setState({show_spinner: false})
+            })
+    }
+
+    handleClose = () => {
+        this.setState({ show_snack: false, error: '' })
+    }
 
     render() {
-        const { formValid, formControls } = this.state
+        const { formValid, formControls, show_spinner } = this.state
         const { user, pass } = formControls
         return (
             <form>
                 {renderTextField(user, 'user', 'Username', this.handleChange)}
                 {renderTextField(pass, 'pass', 'Password', this.handleChange, 'password')}
                 <Box marginTop='10px'>
-                    <Button disabled={!formValid}>Sign In</Button>
+                    <Button onClick={this.logIn} disabled={!formValid}>
+                        {
+                            show_spinner
+                            ?<CircularProgress size={20}/>
+                            :'Sign In'
+                        }
+                    </Button>
                 </Box>
             </form>
         )

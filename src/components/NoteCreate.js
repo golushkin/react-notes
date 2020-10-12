@@ -12,14 +12,17 @@ import { get_titles } from '../utils/work_with_notes'
 import { validate, isFormValid } from '../utils/validate'
 import { findNote } from '../utils/work_with_notes'
 import { create_note, change_current_note } from '../store/actions/data'
+import { show_err } from '../store/actions/error'
 import { Title } from './FormElements/Title'
 import { Desc } from './FormElements/Desc'
 import { Links } from './FormElements/Links'
 import { get_data_from_links } from '../webservice/RestData'
 import { routes } from '../routes'
+import { ServerReq } from '../webservice/ServerReq'
 
 const mapStateToProps = (state) => ({
-    notes: state.notes
+    notes: state.note.notes,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -27,7 +30,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(create_note(info))
         const route = info.route.length > 0 ? `${info.route}-${place}` : `${place}`
         dispatch(change_current_note(route))
-    }
+    },
+    change_current_note: ()=>dispatch(change_current_note('')),
+    show_err: (err) =>dispatch(show_err(err))
 })
 
 export class NoteCreate extends Component {
@@ -54,7 +59,7 @@ export class NoteCreate extends Component {
                 },
                 links: [],
             },
-            route: '',
+            parent: '',
             saving: false,
             success: false,
             place_len: this.props.notes.length
@@ -63,14 +68,6 @@ export class NoteCreate extends Component {
 
     goBack = () => {
         this.props.history.goBack()
-    }
-
-    get_notes_titles() {
-        if (this.state.notes_titles.length === 0) {
-            const notes_titles = []
-            get_titles(notes_titles, this.props.notes, "", 0);
-            this.setState({ notes_titles })
-        }
     }
 
     handleChange = (e, index = 0, type = 'note') => {
@@ -160,23 +157,25 @@ export class NoteCreate extends Component {
     handleChangeRoute = (e, value, reason) => {
         if (reason === 'select-option') {
             this.setState({
-                route: value.route,
-                place_len: findNote(this.props.notes, value.route).children.length
+                parent: value._id,
+                //place_len: findNote(this.props.notes, value.route).children.length
             })
         }
         else if (reason === 'clear') {
             this.setState({
-                route: '',
-                place_len: this.props.notes.length
+                parent: '',
+                //place_len: this.props.notes.length
             })
         }
     }
 
     submit = (e) => {
         e.preventDefault()
-        const { formControl, route } = this.state
+        const { formControl, parent } = this.state
+        const show_err = this.props.show_err
+        const token = this.props.token
+        const server = new ServerReq()
         const note = {
-            id: Date.now(),
             title: formControl.title.value,
             desc: formControl.desc.value,
             links: formControl.links.map(link_obj => ({
@@ -186,7 +185,13 @@ export class NoteCreate extends Component {
                 link_title: link_obj.link.value,
                 image: ""
             })),
+            head: true,
             children: [],
+        }
+
+        if(parent){
+            note.parent = parent
+            note.head = false
         }
 
         this.setState({
@@ -195,20 +200,32 @@ export class NoteCreate extends Component {
 
         get_data_from_links(note.links)
             .then(new_links => {
-                note.links = new_links
-                this.props.create_note({
-                    route, note
-                }, this.state.place_len)
+                note.links = new_links                
+                return server.save_note(note, token)
+            })
+            .then(res =>{
                 this.setState({
                     saving: false,
                     success: true
                 })
-                setTimeout(() => this.props.history.push(routes.home), 1000)
+                this.props.change_current_note()
+                setTimeout(()=>this.props.history.push(routes.home),1000)
             })
+            .catch(err => show_err(err))
+        
     }
 
     componentDidMount() {
-        this.get_notes_titles()
+        const token = this.props.token
+        const show_err = this.show_err
+        const server = new ServerReq()
+
+        server
+            .get_notes_titles(token)
+            .then(res => {
+                this.setState({notes_titles: res.data})
+            })
+            .catch(err => show_err(err))
     }
 
     render() {
@@ -225,7 +242,7 @@ export class NoteCreate extends Component {
                 <form>
                     <Autocomplete
                         id="combo-box-demo"
-                        ListboxProps={{'data-testid':'auto-list'}}
+                        ListboxProps={{ 'data-testid': 'auto-list' }}
                         options={this.state.notes_titles}
                         data-testid='autocomplete'
                         disabled={this.state.notes_titles.length > 0 ? false : true}
