@@ -6,11 +6,6 @@ export const NOTE = {
     POPULATE: "POPULATE_NOTE"
 }
 
-export const LINK = {
-    CREATE: 'CREATE_LINK',
-    UPDATE:'UPDATE_LINK',
-    DELETE: 'DELETE_LINK'
-}
 
 export const WEB = {
     SIGN_UP: "SIGN_UP",
@@ -21,23 +16,3 @@ export const WEB = {
     SHOW_ERROR: "SHOW_ERROR",
     HIDE_ERROR: 'HIDE_ERROR'
 }
-
-
-/*
-
-note = {
-        // id: '',
-        title: '',
-        desc: '',
-        children: [],
-        links: []
-}
-
-link = {
-    desc: '',
-    link: '',
-    title: '',
-    img: ''
-}
-
-*/

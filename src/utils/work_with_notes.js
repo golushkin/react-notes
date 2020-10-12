@@ -28,25 +28,3 @@ function find_deep_note(notes, route) {
 
   return note_rec(notes, 1)
 }
-
-
-
-export function get_titles(notes_titles, notes, route = '', deep = 0, head = undefined) {
-  notes.forEach((el, i) => {
-    let route_l = "";
-    if (deep === 0) {
-      //head = el._id
-      route_l = `${i}`;
-    } else {
-      route_l = `${route}-${i}`;
-    }
-    if (el.children.length > 0) {
-      get_titles(notes_titles, el.children, route_l, deep + 1)// head)
-    }
-    notes_titles.push({
-      title: el.title,
-      route: route_l,
-      //head
-    });
-  });
-}

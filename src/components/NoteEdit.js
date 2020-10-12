@@ -11,7 +11,7 @@ import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 import { validate, isFormValid } from '../utils/validate'
 import { findNote } from '../utils/work_with_notes'
-import { update_note, change_current_note, delete_note } from '../store/actions/data'
+import { change_current_note } from '../store/actions/data'
 import { show_err } from '../store/actions/error'
 import { Title } from './FormElements/Title'
 import { Desc } from './FormElements/Desc'
@@ -26,14 +26,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    update_note: (info) => {
-        dispatch(update_note(info))
-        dispatch(change_current_note(info.route))
-    },
-    delete_note: (route) => {
-        dispatch(delete_note(route))
-        dispatch(change_current_note(""))
-    },
     change_current_note: () => dispatch(change_current_note("")),
     show_err: (err) => dispatch(show_err(err))
 })
@@ -197,8 +189,7 @@ export class NoteEdit extends Component {
 
 
     handleDeleteNote = () => {
-        //this.props.delete_note(this.state.route)
-        const server = create_request()
+        const server = new ServerReq()
         const note_id = this.state.note._id
         const token = this.props.token
         const show_err = this.props.show_err
@@ -218,7 +209,7 @@ export class NoteEdit extends Component {
 
     submit = (e) => {
         e.preventDefault()
-        const { formControl, route, note } = this.state
+        const { formControl, note } = this.state
         const { token, change_current_note, show_err } = this.props
 
         const note_obj = {

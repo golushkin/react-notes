@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     Box, TextField,
-    Button, Typography,
+    Button,
     CircularProgress
 } from '@material-ui/core'
 import { validate, validatePasswords, isFormValid } from '../../utils/validate'
