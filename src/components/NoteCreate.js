@@ -93,7 +93,7 @@ export class NoteCreate extends Component {
         }
 
         this.setState({
-            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true),
+            formValid: isFormValid(formControl, ['_id', 'link_title', 'image'], true),
             formControl
         })
     }
@@ -106,7 +106,7 @@ export class NoteCreate extends Component {
 
         this.setState({
             formControl,
-            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true)
+            formValid: isFormValid(formControl, ['_id', 'link_title', 'image'], true)
         })
     }
 
@@ -125,7 +125,7 @@ export class NoteCreate extends Component {
                     touch: false,
                     validationRules: {
                         isRequired: true,
-                        matchPattern: /[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?/gi
+                        matchPattern: /[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/gi
                     }
                 },
                 desc: {

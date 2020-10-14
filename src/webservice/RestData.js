@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-/* need to write error handlers */
 export function get_data_from_links(links) {
   return Promise.allSettled(links.map(link => req_to_link(link.link)))
     .then(results => {

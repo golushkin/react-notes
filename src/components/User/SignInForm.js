@@ -7,7 +7,6 @@ import {
 } from '@material-ui/core'
 import { validate, isFormValid } from '../../utils/validate'
 import { ServerReq } from '../../webservice/ServerReq'
-import { save_user_to_storage } from '../../utils/storage'
 
 export class SignInForm extends Component {
 
@@ -56,8 +55,8 @@ export class SignInForm extends Component {
         element.touch = true
         element.value = value
         element.valid = validate(value, element.validationRules)
-        let formValid = isFormValid(formControls)
         formControls[name] = element
+        let formValid = isFormValid(formControls)
 
         this.setState({
             formValid,
@@ -79,7 +78,6 @@ export class SignInForm extends Component {
         server
             .log_in(user)
             .then(res => {
-                save_user_to_storage(res.data)
                 this.props.log_in_user(res.data)
             })
             .catch(err => {

@@ -10,7 +10,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import { routes } from '../routes'
 import { change_current_note } from '../store/actions/data'
 import { log_out_user } from '../store/actions/user'
-import { delete_user_from_storage } from '../utils/storage'
 import { Sidebar } from './NoteDisplay/Sidebar'
 
 
@@ -41,7 +40,6 @@ export class Header extends Component {
     }
 
     logOut = () =>{
-        delete_user_from_storage()
         this.props.log_out_user()
     }
 

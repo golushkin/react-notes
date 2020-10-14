@@ -42,7 +42,7 @@ function get_state_links(note) {
             touch: false,
             validationRules: {
                 isRequired: true,
-                matchPattern: /[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?/gi
+                matchPattern: /[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/gi
             }
         },
         desc: {
@@ -125,7 +125,7 @@ export class NoteEdit extends Component {
         }
 
         this.setState({
-            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true),
+            formValid: isFormValid(formControl, ['children', '_id', 'image', 'link_title'], true),
             formControl
         })
     }
@@ -138,7 +138,7 @@ export class NoteEdit extends Component {
 
         this.setState({
             formControl,
-            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true)
+            formValid: isFormValid(formControl, ['children', '_id', 'image', 'link_title'], true)
         })
     }
 
@@ -157,7 +157,7 @@ export class NoteEdit extends Component {
                     touch: false,
                     validationRules: {
                         isRequired: true,
-                        matchPattern: /[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?/gi
+                        matchPattern: /[-a-zA-Z0-9@:%_+.~#?&/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&/=]*)?/gi
                     }
                 },
                 desc: {

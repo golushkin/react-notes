@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core'
 import { validate, validatePasswords, isFormValid } from '../../utils/validate'
 import { ServerReq } from '../../webservice/ServerReq'
-import { save_user_to_storage } from '../../utils/storage'
 
 
 export class SignUpForm extends Component {
@@ -108,7 +107,6 @@ export class SignUpForm extends Component {
         server
             .sign_up(user)
             .then(res => {
-                save_user_to_storage(res.data)
                 this.props.sign_up_user(res.data)
             })
             .catch(err => {
