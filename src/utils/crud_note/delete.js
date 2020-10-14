@@ -1,4 +1,4 @@
-import { NOTE } from '../../const'
+/*import { NOTE } from '../../const'
 
 export function delete_smt(state, action){
     const routeLen = action.payload.length
@@ -71,3 +71,4 @@ function note_rec_link(arr, len, indexes, action) {
 }
 
 
+*/

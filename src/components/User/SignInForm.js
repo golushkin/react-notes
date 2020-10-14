@@ -52,13 +52,13 @@ export class SignInForm extends Component {
         const element = {
             ...formControls[name]
         }
-
+        
         element.touch = true
         element.value = value
         element.valid = validate(value, element.validationRules)
-        let formValid = isFormValid(formControls)
         formControls[name] = element
-
+        let formValid = isFormValid(formControls)
+        
         this.setState({
             formValid,
             formControls
@@ -96,7 +96,7 @@ export class SignInForm extends Component {
         const { formValid, formControls, show_spinner } = this.state
         const { user, pass } = formControls
         return (
-            <form>
+            <form className='sign-in-form'>
                 {renderTextField(user, 'user', 'Username', this.handleChange)}
                 {renderTextField(pass, 'pass', 'Password', this.handleChange, 'password')}
                 <Box marginTop='10px'>

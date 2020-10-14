@@ -62,7 +62,7 @@ export class UserSign extends Component {
         }
   
         return (
-            <Box overflow='hidden'>
+            <Box className="user-sign" overflow='hidden'>
                 <Box width={'50%'} margin='0 auto'>
                     <Slide direction="left" in={sign_up} mountOnEnter unmountOnExit onExited={() => this.setState({ sign_in: true })}>
                         <SignUpForm sign_up_user={sign_up_user} show_err={show_err}/>

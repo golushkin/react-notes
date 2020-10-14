@@ -1,10 +1,17 @@
 /* eslint-disable no-undef */
 
-describe("note edit tests", () => {
+describe("note create tests", () => {
     beforeEach(() => {
-        cy.visit('/home')
+        cy.visit('/')
+        cy.get('.user-sign')
+        cy.contains(/sign in/i).click()
+        cy.wait(1000)
+        cy.get('input[name="user"]').type('test')
+        cy.get('input[name="pass"]').type('test')
+        cy.contains(/sign in/i).click()
         cy.get('.sidebar').contains(/create note/i).click()
     })
+
     it('test render', () => {
         cy.visit('/home')
         cy.get('.sidebar').contains(/create note/i).click()
@@ -57,7 +64,7 @@ describe("note edit tests", () => {
         cy.get(title).type('Test')
         cy.contains(save).click()
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test')
+        cy.get('.sidebar').contains('Test')
     })
 
     it('test save: title, link', () => {
@@ -73,7 +80,7 @@ describe("note edit tests", () => {
 
         cy.contains(save).click()
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test1')
+        cy.get('.sidebar').contains('Test1').click()
         cy.get(`.display a[href='${href}'`).should('exist')
     })
 
@@ -83,20 +90,27 @@ describe("note edit tests", () => {
         const href = 'https://docs.cypress.io/api/commands/last.html#Syntax'
         const save_btn = /save/i
         const link_btn = /create/i
-        
-        cy.get('input').first().type('spe')
-        cy.contains(/speaking/i).click()
 
+        /* create first note */
+        cy.get(title).type('Auto test')
+        cy.contains(save_btn).click()
+        cy.url().should('include', '/home')
+        cy.get('.sidebar').contains(/auto test/i)
+        cy.contains(/create note/i).click()
+        
+        /* create second note */
+        cy.get('input').first().type('tes')
+        cy.contains(/auto test/i).click()
         cy.get(title).type('Test1')
         cy.contains(link_btn).click()
         cy.get(links).first().type(href)
-
         cy.contains(save_btn).click()
+
+        /* check */
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test1')
+        cy.get('.sidebar').contains(/auto test/i).click()
+        cy.get('.sidebar').contains('Test1').click()
         cy.get(`.display a[href='${href}'`).should('exist')
-        cy.get('.sidebar').contains('speaking')
-            .parent().siblings('ul').contains('Test1')
     })
 
 })

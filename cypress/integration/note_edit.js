@@ -1,20 +1,46 @@
 /* eslint-disable no-undef */
 
 describe("note edit tests", () => {
-    it('test render', () => {
+    beforeEach(() => {
         cy.visit('/')
+        cy.get('.user-sign')
+        cy.contains(/sign in/i).click()
+        cy.wait(1000)
+        cy.get('input[name="user"]').type('test')
+        cy.get('input[name="pass"]').type('test')
+        cy.contains(/sign in/i).click()
+
+        cy.get('.sidebar').contains(/create note/i).click()
+        const title = "input[name='title']"
+        const links = "input[name='link']"
+        const desc = "textarea[name='desc']"
+        const create_link = /create new link/i
+        const href = 'https://docs.cypress.io/api/commands/last.html#Syntax'
+        const save = /save/i
+
+        cy.get(title).type('Test1')
+        cy.get(desc).type('test desc')
+        cy.contains(create_link).click()
+        cy.get(links).first().type(href)
+
+        cy.contains(save).click()
+        cy.url().should('include', '/home')
+        cy.get('.sidebar').contains('Test1').click()
+    })
+
+    it('test render', () => {
         cy.get('#edit-btn')
             .click()
-        cy.url().should('include', 'edit/0')
+        cy.url().should('include', 'edit/1')
 
         cy.get('form').within(($form) => {
             console.log($form);
             cy.get('input[name="title"]')
-                .should('have.value', 'English')
-            cy.get('input[name="link"]')
-                .should('have.value', 'https://localhost.com')
+                .should('have.value', 'Test1')
             cy.get('textarea[name="desc"]')
-                .contains(/Useful links for studing english/i)
+                .should('have.value', 'test desc')
+            cy.get('input[name="link"]').first()
+                .should('have.value', 'https://docs.cypress.io/api/commands/last.html#Syntax')
             cy.contains(/create new link/i)
             cy.contains(/cancel/i)
             cy.contains(/update/i)
@@ -28,7 +54,7 @@ describe("note edit tests", () => {
         const new_link = /create new/i
         const link = 'ul > li input'
 
-        cy.visit('/edit/0')
+        cy.get('#edit-btn').click()
         cy.get(title).clear()
         cy.contains(upd_btn).should('be.disabled')
 
@@ -50,7 +76,6 @@ describe("note edit tests", () => {
     })
 
     it('test cancel', () => {
-        cy.visit('/')
         cy.get('#edit-btn')
             .click()
 
@@ -59,38 +84,41 @@ describe("note edit tests", () => {
     })
 
     it('test edit: title', () => {
-        cy.visit('/edit/0')
+        cy.get('#edit-btn').click()
+
         const title = "input[name='title']"
         const upd_btn = /update/i
 
         cy.get(title).clear()
-        cy.get(title).type('Test')
+        cy.get(title).type('Test2')
         cy.contains(upd_btn).click()
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test')
+        cy.get('.sidebar').contains('Test2')
     })
 
     it('test edit: title, link', () => {
-        cy.visit('/edit/0')
+        cy.get('#edit-btn').click()
+
         const title = "input[name='title']"
         const links = "input[name='link']"
         const href = 'https://docs.cypress.io/api/commands/last.html#Syntax'
         const upd_btn = /update/i
 
         cy.get(title).clear()
-        cy.get(title).type('Test1')
+        cy.get(title).type('Test2')
 
         cy.get(links).first().clear()
         cy.get(links).first().type(href)
 
         cy.contains(upd_btn).click()
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test1')
+        cy.get('.sidebar').contains('Test2').click()
         cy.get(`.display a[href='${href}'`).should('exist')
     })
 
     it('test edit: title, link and new link', () => {
-        cy.visit('/edit/0')
+        cy.get('#edit-btn').click()
+
         const title = "input[name='title']"
         const links = "input[name='link']"
         const href = 'https://docs.cypress.io/api/commands/last.html#Syntax'
@@ -99,7 +127,7 @@ describe("note edit tests", () => {
         const link_btn = /create/i
 
         cy.get(title).clear()
-        cy.get(title).type('Test1')
+        cy.get(title).type('Test2')
 
         cy.get(links).first().clear()
         cy.get(links).first().type(href)
@@ -109,7 +137,7 @@ describe("note edit tests", () => {
 
         cy.contains(upd_btn).click()
         cy.url().should('include', '/home')
-        cy.get('.display').contains('Test1')
+        cy.get('.sidebar').contains('Test2').click()
         cy.get(`.display a[href='${href}'`).should('exist')
         cy.get(`.display a[href='${new_href}'`).should('exist')
     })

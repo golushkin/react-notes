@@ -121,7 +121,7 @@ export class SignUpForm extends Component {
         const { formValid, formControls, show_spinner } = this.state
         const { user, pass1, pass2 } = formControls
         return (
-            <form>
+            <form className='sign-up-form'>
                 {renderTextField(user, 'user', 'Username', this.handleChange)}
                 {renderTextField(pass1, 'pass1', 'Password', this.handleChange, 'password')}
                 {renderTextField(pass2, 'pass2', 'Repeat password', this.handleChange, 'password')}

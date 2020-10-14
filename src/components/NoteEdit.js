@@ -11,7 +11,7 @@ import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 import { validate, isFormValid } from '../utils/validate'
 import { findNote } from '../utils/work_with_notes'
-import { update_note, change_current_note, delete_note } from '../store/actions/data'
+import { change_current_note} from '../store/actions/data'
 import { show_err } from '../store/actions/error'
 import { Title } from './FormElements/Title'
 import { Desc } from './FormElements/Desc'
@@ -26,14 +26,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    update_note: (info) => {
-        dispatch(update_note(info))
-        dispatch(change_current_note(info.route))
-    },
-    delete_note: (route) => {
-        dispatch(delete_note(route))
-        dispatch(change_current_note(""))
-    },
     change_current_note: () => dispatch(change_current_note("")),
     show_err: (err) => dispatch(show_err(err))
 })
@@ -197,16 +189,16 @@ export class NoteEdit extends Component {
 
 
     handleDeleteNote = () => {
-        //this.props.delete_note(this.state.route)
-        const server = create_request()
+        const server = new ServerReq()
         const note_id = this.state.note._id
+        const route = this.state.route
         const token = this.props.token
         const show_err = this.props.show_err
 
         this.setState({ delete_spinner: true, open_modal: false })
 
         server
-            .delete_note(note_id, token)
+            .delete_note(note_id, token, route)
             .then(res => {
                 this.setState({ delete_spinner: false })
                 this.props.change_current_note()
@@ -263,9 +255,10 @@ export class NoteEdit extends Component {
 
         if (new_links.length === 0) {
             note_obj.links = old_links
+            note_obj.children = note.children
 
             server
-                .update_note(note_obj, token)
+                .update_note(note_obj, token, route)
                 .then(res => {
                     this.setState({
                         saving: false,
@@ -277,11 +270,12 @@ export class NoteEdit extends Component {
                 .catch(err => show_err(err))
         }
         else {
+            note_obj.children = note.children
             get_data_from_links(new_links)
                 .then(links_res => {
                     note_obj.links = [...links_res, ...old_links]
 
-                    return server.update_note(note_obj, token)
+                    return server.update_note(note_obj, token, route)
                 })
                 .then(res => {
                     this.setState({

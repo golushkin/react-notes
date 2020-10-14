@@ -1,4 +1,4 @@
-import { NOTE } from '../../const'
+/*import { NOTE } from '../../const'
 
 export function update_note(state, action){
     const routeLen = action.payload.route.length
@@ -69,4 +69,4 @@ function note_rec_link(arr, len, indexes, action){
     }
     else 
         note_rec_link(arr[index].children, len + 1, indexes, action)
-}
+}*/

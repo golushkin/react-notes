@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Box, CircularProgress } from '@material-ui/core'
-import { create_request } from '../../webservice/ServerReq'
+import { ServerReq } from '../../webservice/ServerReq'
 import { populate_note } from '../../store/actions/data'
 
 export class LabelItem extends Component {
@@ -17,7 +17,7 @@ export class LabelItem extends Component {
         const { item, route_l, token, populate_note } = this.props
 
         if (item.hasOwnProperty('children') && item.children.length > 0 && typeof item.children[0] === 'string') {
-            const server = create_request()
+            const server = new ServerReq()
             this.setState({spinner: true})
 
             server

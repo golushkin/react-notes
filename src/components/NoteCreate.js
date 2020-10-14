@@ -8,10 +8,9 @@ import { Autocomplete } from '@material-ui/lab'
 import { styled } from '@material-ui/core'
 import { green } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
-import { get_titles } from '../utils/work_with_notes'
 import { validate, isFormValid } from '../utils/validate'
 import { findNote } from '../utils/work_with_notes'
-import { create_note, change_current_note } from '../store/actions/data'
+import { change_current_note } from '../store/actions/data'
 import { show_err } from '../store/actions/error'
 import { Title } from './FormElements/Title'
 import { Desc } from './FormElements/Desc'
@@ -26,11 +25,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    create_note: (info, place) => {
-        dispatch(create_note(info))
-        const route = info.route.length > 0 ? `${info.route}-${place}` : `${place}`
-        dispatch(change_current_note(route))
-    },
     change_current_note: ()=>dispatch(change_current_note('')),
     show_err: (err) =>dispatch(show_err(err))
 })
@@ -59,10 +53,9 @@ export class NoteCreate extends Component {
                 },
                 links: [],
             },
-            parent: '',
             saving: false,
             success: false,
-            place_len: this.props.notes.length
+            place_len: ''
         }
     }
 
@@ -157,21 +150,19 @@ export class NoteCreate extends Component {
     handleChangeRoute = (e, value, reason) => {
         if (reason === 'select-option') {
             this.setState({
-                parent: value._id,
-                //place_len: findNote(this.props.notes, value.route).children.length
+                place_len: `${value.route}`
             })
         }
         else if (reason === 'clear') {
             this.setState({
-                parent: '',
-                //place_len: this.props.notes.length
+                place_len: ''
             })
         }
     }
 
     submit = (e) => {
         e.preventDefault()
-        const { formControl, parent } = this.state
+        const { formControl, parent, place_len } = this.state
         const show_err = this.props.show_err
         const token = this.props.token
         const server = new ServerReq()
@@ -201,7 +192,7 @@ export class NoteCreate extends Component {
         get_data_from_links(note.links)
             .then(new_links => {
                 note.links = new_links                
-                return server.save_note(note, token)
+                return server.save_note(note, token, place_len)
             })
             .then(res =>{
                 this.setState({

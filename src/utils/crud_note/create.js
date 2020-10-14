@@ -1,4 +1,4 @@
-import { NOTE } from '../../const'
+/*import { NOTE } from '../../const'
 
 function get_note_obj(action) {
     const note = action.payload.note
@@ -105,3 +105,4 @@ function create_shallow(state, action) {
         notes
     }
 }
+*/
