@@ -93,7 +93,7 @@ export class NoteCreate extends Component {
         }
 
         this.setState({
-            formValid: isFormValid(formControl, ['_id', 'link_title', 'image'], true),
+            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true),
             formControl
         })
     }
@@ -106,7 +106,7 @@ export class NoteCreate extends Component {
 
         this.setState({
             formControl,
-            formValid: isFormValid(formControl, ['_id', 'link_title', 'image'], true)
+            formValid: isFormValid(formControl, ['id', 'link_title', 'image'], true)
         })
     }
 

@@ -125,7 +125,7 @@ export class NoteEdit extends Component {
         }
 
         this.setState({
-            formValid: isFormValid(formControl, ['children', '_id', 'image', 'link_title'], true),
+            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true),
             formControl
         })
     }
@@ -138,7 +138,7 @@ export class NoteEdit extends Component {
 
         this.setState({
             formControl,
-            formValid: isFormValid(formControl, ['children', '_id', 'image', 'link_title'], true)
+            formValid: isFormValid(formControl, ['children', 'id', 'image', 'link_title'], true)
         })
     }
 
